@@ -1,1 +1,1 @@
-cache-redis
+Conhecendo a lógica de chache na sua API
