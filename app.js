@@ -1,10 +1,12 @@
+//MODULOS
 const express = require('express');
-
-const app = express();
 const redis = require('redis');
+const app = express();
+
+//CRIANDO A CONEXAO COM REDIS
 const redisClient = redis.createClient();
 
-
+//PEGANDO O VALOR DA KEY COM REDIS
 const getCache = (key) => {
     return new Promise((resolve, reject) => {
         redisClient.get(key, (err, value) => {
@@ -14,6 +16,7 @@ const getCache = (key) => {
     })
 }
 
+//ARMAZENANDO O VALOR COM REDIS
 const setCache = (key, value) => {
     return new Promise((resolve, reject) => {
         redisClient.set(key, value, 'EX', 10, (err, value) => {
@@ -23,6 +26,7 @@ const setCache = (key, value) => {
     })
 }
 
+//SIMULANDO O GET DE UM BD
 const dbFind = (id) => {
     const time = parseInt(Math.random() * 2000);
     return new Promise((resolve, reject) => {
@@ -30,8 +34,7 @@ const dbFind = (id) => {
     })
 }
 
-app.get('/', (req, res) => res.send('caching things'));
-
+//ROUTE
 app.get('/get/:id',async (req, res) => {
     const id = req.params.id;
 
@@ -45,5 +48,3 @@ app.get('/get/:id',async (req, res) => {
     }
 })
 app.listen(3000, () => console.log('servidor on!'))
-
-//https://www.youtube.com/watch?v=Jw2EfdstyLA&t=48s
